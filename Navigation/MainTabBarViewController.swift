@@ -26,7 +26,7 @@ class MainTabBarViewController: UITabBarController {
         profileVC.tabBarItem.title = "Профиль"
         profileVC.tabBarItem.image = UIImage(systemName: "person")
 //        profileNavigationController.navigationBar.isTranslucent = false
-        profileNavigationController.navigationBar.backgroundColor = .white
+//        profileNavigationController.navigationBar.backgroundColor = .white
           
         viewControllers = [feedNavigationController, profileNavigationController]
         }
