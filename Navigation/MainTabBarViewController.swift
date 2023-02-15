@@ -10,7 +10,8 @@ import UIKit
 class MainTabBarViewController: UITabBarController {
     
     private let feedVC = FeedViewController()
-    private let profileVC = ProfileViewController()
+//    private let profileVC = ProfileViewController()
+    private let profileVC = LogInViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +26,9 @@ class MainTabBarViewController: UITabBarController {
         let profileNavigationController = UINavigationController(rootViewController: profileVC)
         profileVC.tabBarItem.title = "Профиль"
         profileVC.tabBarItem.image = UIImage(systemName: "person")
+        profileNavigationController.navigationBar.isHidden = true
 //        profileNavigationController.navigationBar.isTranslucent = false
-//        profileNavigationController.navigationBar.backgroundColor = .white
+//        profileNavigationController.navigationBar.backgroundColor = .red
           
         viewControllers = [feedNavigationController, profileNavigationController]
         }
