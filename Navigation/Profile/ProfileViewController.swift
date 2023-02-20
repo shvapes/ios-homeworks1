@@ -9,42 +9,61 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
+    let postModel = Post.makeMockPost()
+    
     let profileHeaderView = ProfileHeaderView()
     
-    private let newButton: UIButton = {
-        let newButton = UIButton()
-        newButton.translatesAutoresizingMaskIntoConstraints = false
-        newButton.setTitle("New button", for: .normal)
-        newButton.setTitleColor(UIColor.white, for: .normal)
-        newButton.setTitleColor(UIColor.black, for: .highlighted)
-        newButton.backgroundColor = .systemBlue
-        return newButton
+    private lazy var postTableView: UITableView = {
+        let postTableView = UITableView(frame: .zero, style: .grouped)
+        postTableView.dataSource = self
+        postTableView.delegate = self
+        postTableView.translatesAutoresizingMaskIntoConstraints = false
+        postTableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
+        return postTableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
-        view.addSubview(profileHeaderView)
         title = "Профиль"
-        view.addSubview(newButton)
+        view.addSubview(postTableView)
         profileHeaderViewLayout()
     }
     
     private func profileHeaderViewLayout() {
-        
-        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        
+                
         NSLayoutConstraint.activate([
-            profileHeaderView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            profileHeaderView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            profileHeaderView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            profileHeaderView.heightAnchor.constraint(equalToConstant: 220),
             
-            newButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            newButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            newButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            postTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            postTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            postTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            postTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             
         ])
     }
 }
 
+extension ProfileViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        postModel.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+        cell.setupCell(model: postModel[indexPath.row])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = ProfileHeaderView()
+        return header
+    }
+    
+}
+
+extension ProfileViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+}

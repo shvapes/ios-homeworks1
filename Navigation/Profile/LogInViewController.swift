@@ -39,11 +39,12 @@ class LogInViewController: UIViewController {
         textField.layer.cornerRadius = 10
         textField.placeholder = "Email or phone"
         textField.textColor = .black
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
+        textField.leftViewMode = .always
         textField.font = UIFont.systemFont(ofSize: 16)
         textField.tintColor = color
         textField.autocapitalizationType = .none
         textField.delegate = self
-//        textField.isSecureTextEntry = true
         return textField
     }()
 
@@ -56,6 +57,8 @@ class LogInViewController: UIViewController {
         textField.layer.cornerRadius = 10
         textField.placeholder = "Password"
         textField.textColor = .black
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
+        textField.leftViewMode = .always
         textField.font = UIFont.systemFont(ofSize: 16)
         textField.tintColor = color
         textField.autocapitalizationType = .none
