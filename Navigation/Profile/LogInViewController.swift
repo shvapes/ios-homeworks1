@@ -157,7 +157,7 @@ class LogInViewController: UIViewController {
     
     @objc private func tapAction() {
         let profileVC = ProfileViewController()
-        present(profileVC, animated: true)
+        navigationController?.pushViewController(profileVC, animated: true)
         checkLoginButtonStates()
     }
     

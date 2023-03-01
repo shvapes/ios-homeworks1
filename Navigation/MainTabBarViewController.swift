@@ -16,6 +16,7 @@ class MainTabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConrollers()
+        self.tabBar.tintColor = .systemBlue
     }
     
     private func setupConrollers() {
@@ -26,9 +27,6 @@ class MainTabBarViewController: UITabBarController {
         let profileNavigationController = UINavigationController(rootViewController: profileVC)
         profileVC.tabBarItem.title = "Профиль"
         profileVC.tabBarItem.image = UIImage(systemName: "person")
-        profileNavigationController.navigationBar.isHidden = true
-//        profileNavigationController.navigationBar.isTranslucent = false
-//        profileNavigationController.navigationBar.backgroundColor = .red
           
         viewControllers = [feedNavigationController, profileNavigationController]
         }
