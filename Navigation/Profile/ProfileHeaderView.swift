@@ -8,7 +8,30 @@
 import UIKit
 
 class ProfileHeaderView: UIView {
-        
+    
+    private var leadingConstraint = NSLayoutConstraint()
+    private var topConstraint = NSLayoutConstraint()
+    private var widthConstraint = NSLayoutConstraint()
+    private var heightConstraint = NSLayoutConstraint()
+    private var centerConstraint = CGPoint()
+    
+    let translucentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.alpha = 0
+        return view
+    }()
+    
+    private let crossСloseButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "multiply"), for: .normal)
+        button.tintColor = .black
+        button.alpha = 0
+        return button
+    }()
+    
     private let avatarImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +61,7 @@ class ProfileHeaderView: UIView {
         statusLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         return statusLabel
     }()
-
+    
     private let setStatusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -62,34 +85,70 @@ class ProfileHeaderView: UIView {
         textField.textColor = .gray
         return textField
     }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(avatarImageView)
         addSubview(fullNameLabel)
         addSubview(setStatusButton)
         addSubview(statusTextField)
         addSubview(statusLabel)
+        addSubview(translucentView)
+        translucentView.addSubview(crossСloseButton)
+        addSubview(avatarImageView)
         setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        layout()
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        avatarImageView.addGestureRecognizer(tapGesture)
+        avatarImageView.isUserInteractionEnabled = true
+        crossСloseButton.addTarget(self, action: #selector(tapCrossCloseButton), for: .touchUpInside)
+        layout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func buttonPressed() {
-        print(statusTextField.text ?? "")
+    @objc private func tapAction() {
+        
+        UIView.animateKeyframes(withDuration: 0.8, delay: 0.0, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.625) {
+                let scaleAvatarImageView = UIScreen.main.bounds.width / self.avatarImageView.frame.width
+                self.avatarImageView.transform = self.avatarImageView.transform.scaledBy(x: scaleAvatarImageView, y: scaleAvatarImageView)
+                self.avatarImageView.transform = CGAffineTransform(scaleX: scaleAvatarImageView, y: scaleAvatarImageView)
+                self.avatarImageView.layer.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+                self.translucentView.alpha = 0.5
+            }
+
+            UIView.addKeyframe(withRelativeStartTime: 0.625, relativeDuration: 0.375) {
+                self.crossСloseButton.alpha = 1
+            }
+        })
+    }
+    
+    @objc func tapCrossCloseButton() {
+        UIView.animateKeyframes(withDuration: 0.8, delay: 0.0, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.375) {
+                self.crossСloseButton.alpha = 0
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.375, relativeDuration: 0.625) {
+                let scaleAvatarImageView = 120 / UIScreen.main.bounds.width
+                self.avatarImageView.transform = self.avatarImageView.transform.scaledBy(x: scaleAvatarImageView, y: scaleAvatarImageView)
+                self.avatarImageView.center = self.centerConstraint
+                self.translucentView.alpha = 0
+            }
+        })
     }
     
     private func layout() {
         
+        topConstraint = avatarImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16)
+        leadingConstraint = avatarImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16)
+        heightConstraint = avatarImageView.heightAnchor.constraint(equalToConstant: 120)
+        widthConstraint = avatarImageView.widthAnchor.constraint(equalToConstant: 120)
+        centerConstraint = CGPoint(x: avatarImageView.center.x + 16, y: avatarImageView.center.y + 16)
+        
         NSLayoutConstraint.activate([
-            avatarImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-            avatarImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 120),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 120),
+            topConstraint, leadingConstraint, heightConstraint, widthConstraint,
             
             fullNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
             fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 16),
@@ -104,7 +163,22 @@ class ProfileHeaderView: UIView {
             setStatusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12),
             
             statusTextField.leadingAnchor.constraint(equalTo: fullNameLabel.leadingAnchor),
-            statusTextField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -34)
+            statusTextField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -34),
+            
+            translucentView.topAnchor.constraint(equalTo: self.topAnchor),
+            translucentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            translucentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            translucentView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height),
+            
+            crossСloseButton.topAnchor.constraint(equalTo: translucentView.topAnchor, constant: 8),
+            crossСloseButton.trailingAnchor.constraint(equalTo: translucentView.trailingAnchor, constant: -8),
+            crossСloseButton.widthAnchor.constraint(equalToConstant: 16),
+            crossСloseButton.heightAnchor.constraint(equalTo: crossСloseButton.widthAnchor)
+            
         ])
+    }
+    
+    @objc func buttonPressed() {
+        print(statusTextField.text ?? "")
     }
 }
