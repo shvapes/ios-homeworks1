@@ -14,7 +14,6 @@ protocol PhotosCollectionViewCellDelegate: AnyObject {
 class PhotosCollectionViewCell: UICollectionViewCell {
     
     weak var delegate: PhotosCollectionViewCellDelegate?
-    
     private var indexPathCell = IndexPath()
     
     let photoImageView: UIImageView = {

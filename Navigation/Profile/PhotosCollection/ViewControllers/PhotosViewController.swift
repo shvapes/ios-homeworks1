@@ -105,7 +105,6 @@ class PhotosViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
     }
-    
 }
 
 extension PhotosViewController: UICollectionViewDataSource {

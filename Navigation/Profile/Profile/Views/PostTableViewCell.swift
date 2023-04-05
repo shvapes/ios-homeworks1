@@ -8,7 +8,6 @@
 import UIKit
 
 protocol PostTableViewCellProtocol: AnyObject {
-//    func tapPost(cell: CustomTableViewCell)
     func tapLike(cell: PostTableViewCell)
     func tapPost(cell: PostTableViewCell)
 }
@@ -18,9 +17,6 @@ class PostTableViewCell: UITableViewCell {
     weak var delegate: PostTableViewCellProtocol?
     private var tapLikeGesture = UITapGestureRecognizer()
     private var tapPostGesture = UITapGestureRecognizer()
-//    private var tapPostGesture = UITapGestureRecognizer()
-    
-//    private lazy var indexPath = IndexPath() //A
     
     private let contentWhiteView: UIView = {
         let view = UIView()
@@ -89,29 +85,7 @@ class PostTableViewCell: UITableViewCell {
         viewsLabel.text = "Views: \(model.views)"
     }
     
-//    func setupCell1(indexPath: IndexPath, models: [Post]) { //A
-//        self.indexPath = indexPath
-//        let model = models[indexPath.row]
-//        authorLabel.text = model.author
-//        postImageView.image = UIImage(named: model.image)
-//        descriptionText.text = model.description
-//        likesLabel.text = "Likes: \(model.likes)"
-//        viewsLabel.text = "Views: \(model.views)"
-//    }
-    
-//    func addGesture() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapAction))
-//        likesLabel.isUserInteractionEnabled = true
-//        likesLabel.addGestureRecognizer(tapGesture)
-//    }
-//
-//    @objc func tapAction() {
-//        print("likeslabel tapping")
-//
-//    }
-    
     private func layout() {
-        
         contentView.addSubview(contentWhiteView)
         contentView.addSubview(authorLabel)
         contentView.addSubview(postImageView)
@@ -149,6 +123,7 @@ class PostTableViewCell: UITableViewCell {
         ])
     }
 }
+
 extension PostTableViewCell {
     private func addGesture() {
         self.tapLikeGesture.addTarget(self, action: #selector(self.tapLikeAction(_:)))
@@ -158,19 +133,14 @@ extension PostTableViewCell {
         self.tapPostGesture.addTarget(self, action: #selector(self.tapPostAction(_:)))
         self.postImageView.addGestureRecognizer(self.tapPostGesture)
         self.postImageView.isUserInteractionEnabled = true
-//        self.tapPostGesture.addTarget(self, action: #selector(self.postsHandleTapGesture(_:)))
-//        self.imagePostView.addGestureRecognizer(self.tapPostGesture)
-//        self.imagePostView.isUserInteractionEnabled = true
     }
-
+    
     @objc func tapLikeAction(_ gestureRecognizer: UITapGestureRecognizer) {
         guard self.tapLikeGesture === gestureRecognizer else { return }
         delegate?.tapLike(cell: self)
         print("tapLike")
-        
     }
-
-
+    
     @objc func tapPostAction(_ gestureRecognizer: UITapGestureRecognizer) {
         guard self.tapPostGesture === gestureRecognizer else { return }
         delegate?.tapPost(cell: self)

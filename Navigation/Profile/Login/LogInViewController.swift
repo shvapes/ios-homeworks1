@@ -70,9 +70,6 @@ class LogInViewController: UIViewController {
     private let warningLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "Количество символов должно быть не меньше 3!"
-//        label.textColor = .red
-//        label.font = UIFont.systemFont(ofSize: 11, weight: .medium)
         return label
     }()
     
@@ -81,7 +78,6 @@ class LogInViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Log In", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        //        button.setTitleColor(UIColor.black, for: .highlighted)
         button.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         button.layer.cornerRadius = 10
         button.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
@@ -94,7 +90,6 @@ class LogInViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         layout()
-//        logInButton.addTarget(self, action: #selector(tapAction), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,7 +103,7 @@ class LogInViewController: UIViewController {
         notification.removeObserver(UIResponder.keyboardWillShowNotification)
         notification.removeObserver(UIResponder.keyboardWillHideNotification)
     }
-
+    
     @objc private func keyboardWillShow(notification: NSNotification) {
         if let keybordSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             scrollView.contentInset.bottom = keybordSize.height
@@ -119,7 +114,6 @@ class LogInViewController: UIViewController {
     @objc private func keyboardWillHide() {
         scrollView.contentInset = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
-        
     }
     
     private func shakeAnimation(textField: UITextField) {
@@ -193,12 +187,6 @@ class LogInViewController: UIViewController {
             let profileVC = ProfileViewController()
             navigationController?.pushViewController(profileVC, animated: true)
         }
-//        } else if passwordTextField.text!.isEmpty {
-//            shakeAnimation(textField: passwordTextField)
-//        } else {
-//            let profileVC = ProfileViewController()
-//            navigationController?.pushViewController(profileVC, animated: true)
-//        }
         checkLoginButtonStates()
     }
     

@@ -87,6 +87,7 @@ class ProfileHeaderView: UIView {
         textField.textColor = .gray
         return textField
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(fullNameLabel)
@@ -153,7 +154,6 @@ class ProfileHeaderView: UIView {
     }
     
     private func layout() {
-        
         topConstraint = avatarImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16)
         leadingConstraint = avatarImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16)
         heightConstraint = avatarImageView.heightAnchor.constraint(equalToConstant: 120)
@@ -187,7 +187,6 @@ class ProfileHeaderView: UIView {
             crossСloseButton.trailingAnchor.constraint(equalTo: translucentView.trailingAnchor, constant: -8),
             crossСloseButton.widthAnchor.constraint(equalToConstant: 16),
             crossСloseButton.heightAnchor.constraint(equalTo: crossСloseButton.widthAnchor)
-            
         ])
     }
     

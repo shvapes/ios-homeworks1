@@ -13,10 +13,9 @@ class DetailPostView: UIView {
         let viewPost = UIScrollView()
         viewPost.translatesAutoresizingMaskIntoConstraints = false
         viewPost.backgroundColor = .white
-//        viewPost.clipsToBounds = true
         return viewPost
     }()
-
+    
     private let authorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +33,7 @@ class DetailPostView: UIView {
         return imageView
     }()
     
-    private let descriptionText: UILabel = {
+    private let descriptionTextLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14)
@@ -69,7 +68,6 @@ class DetailPostView: UIView {
         return button
     }()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.layout()
@@ -83,18 +81,17 @@ class DetailPostView: UIView {
     func setupCell(model: Post) {
         authorLabel.text = model.author
         postImageView.image = UIImage(named: model.image)
-        descriptionText.text = model.description
+        descriptionTextLabel.text = model.description
         likesLabel.text = "Likes: \(model.likes)"
         viewsLabel.text = "Views: \(model.views)"
     }
     
     private func layout() {
-        
         self.addSubview(detailViewPost)
         detailViewPost.addSubview(closeButton)
         detailViewPost.addSubview(authorLabel)
         detailViewPost.addSubview(postImageView)
-        detailViewPost.addSubview(descriptionText)
+        detailViewPost.addSubview(descriptionTextLabel)
         detailViewPost.addSubview(likesLabel)
         detailViewPost.addSubview(viewsLabel)
         
@@ -114,11 +111,11 @@ class DetailPostView: UIView {
             postImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
             postImageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
             
-            descriptionText.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 16),
-            descriptionText.leadingAnchor.constraint(equalTo: detailViewPost.leadingAnchor, constant: 16),
-            descriptionText.trailingAnchor.constraint(equalTo: detailViewPost.trailingAnchor, constant: -16),
+            descriptionTextLabel.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 16),
+            descriptionTextLabel.leadingAnchor.constraint(equalTo: detailViewPost.leadingAnchor, constant: 16),
+            descriptionTextLabel.trailingAnchor.constraint(equalTo: detailViewPost.trailingAnchor, constant: -16),
             
-            likesLabel.topAnchor.constraint(equalTo: descriptionText.bottomAnchor, constant: 16),
+            likesLabel.topAnchor.constraint(equalTo: descriptionTextLabel.bottomAnchor, constant: 16),
             likesLabel.leadingAnchor.constraint(equalTo: detailViewPost.leadingAnchor, constant: 16),
             likesLabel.bottomAnchor.constraint(equalTo: detailViewPost.bottomAnchor, constant: -16),
             
