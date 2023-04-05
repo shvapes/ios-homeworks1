@@ -20,11 +20,12 @@ final class PhotosTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let arrowButton: UIButton = {
+    private lazy var arrowButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "arrow.right"), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(openPhotoGallery), for: .touchUpInside)
         return button
     }()
     
@@ -66,7 +67,7 @@ final class PhotosTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        layout()
+        self.layout()
     }
     
     required init?(coder: NSCoder) {
@@ -82,7 +83,7 @@ final class PhotosTableViewCell: UITableViewCell {
         contentView.addSubview(photosImageView4)
         
         NSLayoutConstraint.activate([
-                
+            
             photosLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             photosLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             
@@ -111,5 +112,15 @@ final class PhotosTableViewCell: UITableViewCell {
             photosImageView4.heightAnchor.constraint(equalToConstant:(UIScreen.main.bounds.width - CGFloat(allOffsets)) / 4),
             photosImageView4.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12)
         ])
-            }
+    }
+    
+    weak var delegate: PhotosTableViewCellDelegate?
+    
+    @objc private func openPhotoGallery() {
+        delegate?.tapAction()
+    }
+}
+
+protocol PhotosTableViewCellDelegate: AnyObject {
+    func tapAction()
 }

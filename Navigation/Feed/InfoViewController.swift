@@ -8,11 +8,12 @@
 import UIKit
 
 final class InfoViewController: UIViewController {
-
-    private let showAlertButton: UIButton = {
+    
+    private lazy var showAlertButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
         button.setTitle("Показать алерт", for: .normal)
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         return button
     }()
     
@@ -25,7 +26,6 @@ final class InfoViewController: UIViewController {
     private func setupButton() {
         view.addSubview(showAlertButton)
         showAlertButton.center = view.center
-        showAlertButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
     }
     
     @objc private func backAction() {

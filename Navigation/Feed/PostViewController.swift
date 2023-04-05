@@ -14,7 +14,6 @@ final class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .orange
-//        view.addSubview(myLabel)
         title = textForLabel
         makeBarItem()
     }

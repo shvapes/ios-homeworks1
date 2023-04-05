@@ -23,12 +23,13 @@ class ProfileHeaderView: UIView {
         return view
     }()
     
-    private let crossСloseButton: UIButton = {
+    private lazy var crossСloseButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "multiply"), for: .normal)
         button.tintColor = .black
         button.alpha = 0
+        button.addTarget(self, action: #selector(tapCrossCloseButton), for: .touchUpInside)
         return button
     }()
     
@@ -62,10 +63,10 @@ class ProfileHeaderView: UIView {
         return statusLabel
     }()
     
-    private let setStatusButton: UIButton = {
+    private lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Show status", for: .normal)
+        button.setTitle("Set status", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.setTitleColor(UIColor.black, for: .highlighted)
         button.backgroundColor = .blue
@@ -74,6 +75,7 @@ class ProfileHeaderView: UIView {
         button.layer.shadowRadius = 4
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.7
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -94,12 +96,7 @@ class ProfileHeaderView: UIView {
         addSubview(translucentView)
         translucentView.addSubview(crossСloseButton)
         addSubview(avatarImageView)
-        setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        avatarImageView.addGestureRecognizer(tapGesture)
-        avatarImageView.isUserInteractionEnabled = true
-        crossСloseButton.addTarget(self, action: #selector(tapCrossCloseButton), for: .touchUpInside)
+        tapGesture()
         layout()
     }
     
@@ -115,9 +112,9 @@ class ProfileHeaderView: UIView {
                 self.avatarImageView.transform = self.avatarImageView.transform.scaledBy(x: scaleAvatarImageView, y: scaleAvatarImageView)
                 self.avatarImageView.transform = CGAffineTransform(scaleX: scaleAvatarImageView, y: scaleAvatarImageView)
                 self.avatarImageView.layer.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-                self.translucentView.alpha = 0.5
+                self.translucentView.alpha = 0.8
             }
-
+            
             UIView.addKeyframe(withRelativeStartTime: 0.625, relativeDuration: 0.375) {
                 self.crossСloseButton.alpha = 1
             }
@@ -137,6 +134,22 @@ class ProfileHeaderView: UIView {
                 self.translucentView.alpha = 0
             }
         })
+    }
+    
+    private func tapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        avatarImageView.addGestureRecognizer(tapGesture)
+        avatarImageView.isUserInteractionEnabled = true
+    }
+    
+    private func shakeAnimation(textField: UITextField) {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.07
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: textField.center.x - 10, y: textField.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: textField.center.x + 10, y: textField.center.y))
+        textField.layer.add(animation, forKey: "position")
     }
     
     private func layout() {
@@ -179,6 +192,11 @@ class ProfileHeaderView: UIView {
     }
     
     @objc func buttonPressed() {
-        print(statusTextField.text ?? "")
+        if statusTextField.text!.isEmpty {
+            shakeAnimation(textField: statusTextField)
+        } else {
+            statusLabel.text = "Status: \(statusTextField.text ?? "")"
+            print(statusTextField.text ?? "")
+        }
     }
 }
