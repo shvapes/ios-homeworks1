@@ -30,13 +30,25 @@ class LogInViewController: UIViewController {
         return $0
     }(UIImageView())
     
+    private let textFieldStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.spacing = 0
+        stackView.layer.cornerRadius = 10
+        stackView.clipsToBounds = true
+        stackView.layer.borderWidth = 0.5
+        stackView.layer.borderColor = UIColor.black.cgColor
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     private lazy var emailTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .systemGray6
         textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.layer.borderWidth = 0.5
-        textField.layer.cornerRadius = 10
         textField.placeholder = "Email or phone"
         textField.textColor = .black
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
@@ -54,7 +66,6 @@ class LogInViewController: UIViewController {
         textField.backgroundColor = .systemGray6
         textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.layer.borderWidth = 0.5
-        textField.layer.cornerRadius = 10
         textField.placeholder = "Password"
         textField.textColor = .black
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
@@ -130,8 +141,9 @@ class LogInViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(vkImageView)
-        contentView.addSubview(emailTextField)
-        contentView.addSubview(passwordTextField)
+        textFieldStackView.addArrangedSubview(emailTextField)
+        textFieldStackView.addArrangedSubview(passwordTextField)
+        contentView.addSubview(textFieldStackView)
         contentView.addSubview(logInButton)
         contentView.addSubview(warningLabel)
         
@@ -151,21 +163,19 @@ class LogInViewController: UIViewController {
             vkImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             vkImageView.widthAnchor.constraint(equalToConstant: 100),
             vkImageView.heightAnchor.constraint(equalToConstant: 100),
-            
-            emailTextField.topAnchor.constraint(equalTo: vkImageView.bottomAnchor, constant: 120),
-            emailTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            emailTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+
             emailTextField.heightAnchor.constraint(equalToConstant: 50),
-            
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor),
-            passwordTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
             
-            warningLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor),
-            warningLabel.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
+            textFieldStackView.topAnchor.constraint(equalTo: vkImageView.bottomAnchor, constant: 120),
+            textFieldStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            textFieldStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            textFieldStackView.heightAnchor.constraint(equalToConstant: 100),
             
-            logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16),
+            warningLabel.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor),
+            warningLabel.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
+            
+            logInButton.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 16),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             logInButton.heightAnchor.constraint(equalToConstant: 50),

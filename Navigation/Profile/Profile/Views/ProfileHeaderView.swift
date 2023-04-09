@@ -57,9 +57,9 @@ class ProfileHeaderView: UIView {
     private let statusLabel: UILabel = {
         let statusLabel = UILabel()
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusLabel.text = "Status: ..."
-        statusLabel.tintColor = .black
-        statusLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        statusLabel.text = "Waiting for something..."
+        statusLabel.textColor = .gray
+        statusLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return statusLabel
     }()
     
@@ -82,9 +82,16 @@ class ProfileHeaderView: UIView {
     private let statusTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Waiting for something..."
+        textField.placeholder = "Set your status..."
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.textColor = .gray
+        textField.backgroundColor = .white
+        textField.layer.cornerRadius = 12
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.black.cgColor
+        textField.clipsToBounds = true
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 2))
+        textField.leftViewMode = .always
         return textField
     }()
     
@@ -175,8 +182,10 @@ class ProfileHeaderView: UIView {
             setStatusButton.heightAnchor.constraint(equalToConstant: 50),
             setStatusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12),
             
+            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 10),
             statusTextField.leadingAnchor.constraint(equalTo: fullNameLabel.leadingAnchor),
-            statusTextField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -34),
+            statusTextField.heightAnchor.constraint(equalToConstant: 40),
+            statusTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             
             translucentView.topAnchor.constraint(equalTo: self.topAnchor),
             translucentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -194,7 +203,7 @@ class ProfileHeaderView: UIView {
         if statusTextField.text!.isEmpty {
             shakeAnimation(textField: statusTextField)
         } else {
-            statusLabel.text = "Status: \(statusTextField.text ?? "")"
+            statusLabel.text = "\(statusTextField.text ?? "")"
             print(statusTextField.text ?? "")
         }
     }

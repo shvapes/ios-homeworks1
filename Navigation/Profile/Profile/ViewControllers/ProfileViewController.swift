@@ -125,7 +125,7 @@ extension ProfileViewController: PostTableViewCellProtocol {
         let indexPath = IndexPath(row: index, section: 1)
         self.postModel[indexPath.row].likes += 1
         print(postModel[indexPath.row].likes)
-        self.postTableView.reloadRows(at: [indexPath], with: .fade)
+        self.postTableView.reloadRows(at: [indexPath], with: .none)
         print([indexPath.row])
     }
     
@@ -146,6 +146,6 @@ extension ProfileViewController: PostTableViewCellProtocol {
             detailPost.topAnchor.constraint(equalTo: view.topAnchor)
         ])
         
-        self.postTableView.reloadRows(at: [indexPath], with: .fade)
+        self.postTableView.reloadRows(at: [indexPath], with: .none)
     }
 }
